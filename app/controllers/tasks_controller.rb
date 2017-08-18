@@ -5,7 +5,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    task = Task.create(api_params(:description, :user_id, :tasktype_id))
+    task = Task.create(api_params(:description,:user_id,:tasktype_id))
     raise unless task.persisted?
     render json: task, serializer: TaskSerializer
     #Task::NotificationSlack.notify_on_slack(task.id, "created", task.description, task.status)
@@ -38,11 +38,5 @@ class TasksController < ApplicationController
     Task.find(params[:id])
   end
 
-  def create_task_params
-    {
-      description: params[:data][:attributes][:description],
-      user_id: params[:data][:attributes][:user_id],
-      tasktype_id: params[:data][:attributes][:tasktype_id]
-    }
-  end
+
 end
